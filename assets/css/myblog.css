@@ -1,0 +1,11 @@
+/*your custom css styles here*/
+
+img {
+    height: auto !important;
+    width: auto !important;
+    margin-left: 0 !important;
+}
+
+p {
+    margin-bottom: 2em !important;
+}
