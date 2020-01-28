@@ -1266,13 +1266,15 @@ h6:hover .anchor-link {
 <div class="text_cell_render border-box-sizing rendered_html">
 <blockquote><p>Imagem de Capa por <a href="https://www.behance.net/benoitdrigny">Bernoit Drigny</a></p>
 </blockquote>
-<h1 id="1.-Introdu&#231;&#227;o">1. Introdu&#231;&#227;o<a class="anchor-link" href="#1.-Introdu&#231;&#227;o">&#182;</a></h1><p>Este tutorial inicia uma série de dois tutoriais que vão explorar dados diagnósticos de câncer de mama,
-criar e interpretar um modelo de aprendizado de máquina capaz de dicernir entre tumores de benignos e malignos.</p>
-<p>Esse tutorial vai utilizar a linguagem Python e suas diversas bibliotecas para analisar os dados, então é
-esperado um conhecimento mínimo em Python e em estatística. Entretanto, ele foi escrito buscando explicar 
-o máximo do código possível.</p>
-<p>Aqui, os dados (disponibilizados abertamente pela UCI no <a href="https://www.kaggle.com/uciml/breast-cancer-wisconsin-data">Kaggle</a>) serão explorados estatísticamente com o objetivo de extrair informações
-importantes sobre os tumores de câncer de mama.</p>
+<h1 id="1.-Introdu&#231;&#227;o">1. Introdu&#231;&#227;o<a class="anchor-link" href="#1.-Introdu&#231;&#227;o">&#182;</a></h1><p>Foi estimado que em 2017 mais de <a href="https://www.inca.gov.br/tipos-de-cancer/cancer-de-mama">16 mil mulheres</a> morreram de complicações decorrentes do câncer de mama.
+Caracterizado pela divisão <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4127601/">anormal e desordenada</a> das células da mama, o câncer de mama é considerado uma das formas mais incidentes de câncer, especialmente na população feminina.</p>
+<p>Uma grande dificuldade na previsão de prognóstico de pacientes com câncer de mama (ou câncer em geral) é a
+variabilidade existente dos sintomas e agressividade da doença. Entretanto, determinar se um tumor é maligno ou benigno é um passo importante para determinar o prognóstico de um paciente.</p>
+<p>Assim, automatizar o processo de classificação de tumores é de suma importância para um prognóstico com
+mais acurácia e de determinação mais rápida. Essa série de tutoriais vai tratar exatamente dessa tarefa:
+analisar os dados de tumores de câncer de mama, montar um modelo de inteligência artificial que classifique
+esses tumores e <em>estudar</em> esse modelo para avaliar a consistência dele.</p>
+<p>Os dados utilizados nessa série de tutoriais são disponibilizados pela UCI na plataforma <a href="https://www.kaggle.com/uciml/breast-cancer-wisconsin-data">Kaggle</a>. No presente tutorial, vamos tratar da análise exploratória desses dados utilizando a linguagem de programação Python.</p>
 <h2 id="1.1-Importando-as-Bibliotecas-e-os-Dados">1.1 Importando as Bibliotecas e os Dados<a class="anchor-link" href="#1.1-Importando-as-Bibliotecas-e-os-Dados">&#182;</a></h2><p>Antes de tudo, é preciso importar as bibliotecas que utilizaremos para plotagem, análise e logística em geral.</p>
 <p>Para carregar e manipular os dados, utilizaremos o Pandas (importado como <code>pd</code>) e o Numpy (<code>np</code>) para
 cálculos matemáticos.
@@ -1304,17 +1306,17 @@ As bibliotecas Seaborn (<code>sns</code>) e Matplotlib (<code>plt</code>) serão
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Agora devemos definir algumas constantes globais e depois devemos carregar a base de dados (<code>df</code>).</p>
+<p>O primeiro passo é carregar os dados (chamados de <code>df</code> no tutorial) através da função <code>read_csv</code> da biblioteca Pandas.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data.csv&#39;</span><span class="p">)</span> <span class="c1"># ler o arquivo CSV</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/home/gui/Projects/tutorial/data/data.csv&#39;</span><span class="p">)</span> <span class="c1"># ler o arquivo CSV</span>
 </pre></div>
 
     </div>
@@ -1334,7 +1336,7 @@ Para isso, faremos uma análise exploratória inicial.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
@@ -1350,7 +1352,7 @@ Para isso, faremos uma análise exploratória inicial.</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[3]:</div>
+    <div class="prompt output_prompt">Out[8]:</div>
 
 
 
@@ -1398,243 +1400,243 @@ Para isso, faremos uma análise exploratória inicial.</p>
   </thead>
   <tbody>
     <tr>
-      <th>116</th>
-      <td>864726</td>
+      <th>438</th>
+      <td>909231</td>
       <td>B</td>
-      <td>8.950</td>
-      <td>15.76</td>
-      <td>58.74</td>
-      <td>245.2</td>
-      <td>0.09462</td>
-      <td>0.12430</td>
-      <td>0.092630</td>
-      <td>0.02308</td>
+      <td>13.850</td>
+      <td>19.60</td>
+      <td>88.68</td>
+      <td>592.6</td>
+      <td>0.08684</td>
+      <td>0.06330</td>
+      <td>0.01342</td>
+      <td>0.02293</td>
       <td>...</td>
-      <td>17.07</td>
-      <td>63.34</td>
-      <td>270.0</td>
-      <td>0.1179</td>
-      <td>0.18790</td>
-      <td>0.15440</td>
-      <td>0.03846</td>
-      <td>0.1652</td>
-      <td>0.07722</td>
+      <td>28.01</td>
+      <td>100.90</td>
+      <td>749.1</td>
+      <td>0.1118</td>
+      <td>0.11410</td>
+      <td>0.04753</td>
+      <td>0.05890</td>
+      <td>0.2513</td>
+      <td>0.06911</td>
       <td>NaN</td>
     </tr>
     <tr>
-      <th>271</th>
-      <td>8910748</td>
+      <th>152</th>
+      <td>8710441</td>
       <td>B</td>
-      <td>11.290</td>
-      <td>13.04</td>
-      <td>72.23</td>
-      <td>388.0</td>
-      <td>0.09834</td>
-      <td>0.07608</td>
-      <td>0.032650</td>
-      <td>0.02755</td>
+      <td>9.731</td>
+      <td>15.34</td>
+      <td>63.78</td>
+      <td>300.2</td>
+      <td>0.10720</td>
+      <td>0.15990</td>
+      <td>0.41080</td>
+      <td>0.07857</td>
       <td>...</td>
-      <td>16.18</td>
-      <td>78.27</td>
-      <td>457.5</td>
-      <td>0.1358</td>
-      <td>0.15070</td>
-      <td>0.12750</td>
-      <td>0.08750</td>
-      <td>0.2733</td>
-      <td>0.08022</td>
+      <td>19.49</td>
+      <td>71.04</td>
+      <td>380.5</td>
+      <td>0.1292</td>
+      <td>0.27720</td>
+      <td>0.82160</td>
+      <td>0.15710</td>
+      <td>0.3108</td>
+      <td>0.12590</td>
       <td>NaN</td>
     </tr>
     <tr>
-      <th>393</th>
-      <td>903516</td>
+      <th>342</th>
+      <td>89827</td>
+      <td>B</td>
+      <td>11.060</td>
+      <td>14.96</td>
+      <td>71.49</td>
+      <td>373.9</td>
+      <td>0.10330</td>
+      <td>0.09097</td>
+      <td>0.05397</td>
+      <td>0.03341</td>
+      <td>...</td>
+      <td>19.90</td>
+      <td>79.76</td>
+      <td>440.0</td>
+      <td>0.1418</td>
+      <td>0.22100</td>
+      <td>0.22990</td>
+      <td>0.10750</td>
+      <td>0.3301</td>
+      <td>0.09080</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>377</th>
+      <td>9013579</td>
+      <td>B</td>
+      <td>13.460</td>
+      <td>28.21</td>
+      <td>85.89</td>
+      <td>562.1</td>
+      <td>0.07517</td>
+      <td>0.04726</td>
+      <td>0.01271</td>
+      <td>0.01117</td>
+      <td>...</td>
+      <td>35.63</td>
+      <td>97.11</td>
+      <td>680.6</td>
+      <td>0.1108</td>
+      <td>0.14570</td>
+      <td>0.07934</td>
+      <td>0.05781</td>
+      <td>0.2694</td>
+      <td>0.07061</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>413</th>
+      <td>905557</td>
+      <td>B</td>
+      <td>14.990</td>
+      <td>22.11</td>
+      <td>97.53</td>
+      <td>693.7</td>
+      <td>0.08515</td>
+      <td>0.10250</td>
+      <td>0.06859</td>
+      <td>0.03876</td>
+      <td>...</td>
+      <td>31.55</td>
+      <td>110.20</td>
+      <td>867.1</td>
+      <td>0.1077</td>
+      <td>0.33450</td>
+      <td>0.31140</td>
+      <td>0.13080</td>
+      <td>0.3163</td>
+      <td>0.09251</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>101</th>
+      <td>862722</td>
+      <td>B</td>
+      <td>6.981</td>
+      <td>13.43</td>
+      <td>43.79</td>
+      <td>143.5</td>
+      <td>0.11700</td>
+      <td>0.07568</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>...</td>
+      <td>19.54</td>
+      <td>50.41</td>
+      <td>185.2</td>
+      <td>0.1584</td>
+      <td>0.12020</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>0.2932</td>
+      <td>0.09382</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>93</th>
+      <td>862009</td>
+      <td>B</td>
+      <td>13.450</td>
+      <td>18.30</td>
+      <td>86.60</td>
+      <td>555.1</td>
+      <td>0.10220</td>
+      <td>0.08165</td>
+      <td>0.03974</td>
+      <td>0.02780</td>
+      <td>...</td>
+      <td>25.94</td>
+      <td>97.59</td>
+      <td>699.4</td>
+      <td>0.1339</td>
+      <td>0.17510</td>
+      <td>0.13810</td>
+      <td>0.07911</td>
+      <td>0.2678</td>
+      <td>0.06603</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>541</th>
+      <td>921386</td>
+      <td>B</td>
+      <td>14.470</td>
+      <td>24.99</td>
+      <td>95.81</td>
+      <td>656.4</td>
+      <td>0.08837</td>
+      <td>0.12300</td>
+      <td>0.10090</td>
+      <td>0.03890</td>
+      <td>...</td>
+      <td>31.73</td>
+      <td>113.50</td>
+      <td>808.9</td>
+      <td>0.1340</td>
+      <td>0.42020</td>
+      <td>0.40400</td>
+      <td>0.12050</td>
+      <td>0.3187</td>
+      <td>0.10230</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>85</th>
+      <td>8612399</td>
       <td>M</td>
-      <td>21.610</td>
-      <td>22.28</td>
-      <td>144.40</td>
-      <td>1407.0</td>
-      <td>0.11670</td>
-      <td>0.20870</td>
-      <td>0.281000</td>
-      <td>0.15620</td>
+      <td>18.460</td>
+      <td>18.52</td>
+      <td>121.10</td>
+      <td>1075.0</td>
+      <td>0.09874</td>
+      <td>0.10530</td>
+      <td>0.13350</td>
+      <td>0.08795</td>
       <td>...</td>
-      <td>28.74</td>
-      <td>172.00</td>
-      <td>2081.0</td>
-      <td>0.1502</td>
-      <td>0.57170</td>
-      <td>0.70530</td>
-      <td>0.24220</td>
-      <td>0.3828</td>
-      <td>0.10070</td>
+      <td>27.68</td>
+      <td>152.20</td>
+      <td>1603.0</td>
+      <td>0.1398</td>
+      <td>0.20890</td>
+      <td>0.31570</td>
+      <td>0.16420</td>
+      <td>0.3695</td>
+      <td>0.08579</td>
       <td>NaN</td>
     </tr>
     <tr>
-      <th>204</th>
-      <td>87930</td>
+      <th>60</th>
+      <td>858970</td>
       <td>B</td>
-      <td>12.470</td>
-      <td>18.60</td>
-      <td>81.09</td>
-      <td>481.9</td>
-      <td>0.09965</td>
-      <td>0.10580</td>
-      <td>0.080050</td>
-      <td>0.03821</td>
+      <td>10.170</td>
+      <td>14.88</td>
+      <td>64.55</td>
+      <td>311.9</td>
+      <td>0.11340</td>
+      <td>0.08061</td>
+      <td>0.01084</td>
+      <td>0.01290</td>
       <td>...</td>
-      <td>24.64</td>
-      <td>96.05</td>
-      <td>677.9</td>
-      <td>0.1426</td>
-      <td>0.23780</td>
-      <td>0.26710</td>
-      <td>0.10150</td>
-      <td>0.3014</td>
-      <td>0.08750</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>151</th>
-      <td>871001502</td>
-      <td>B</td>
-      <td>8.219</td>
-      <td>20.70</td>
-      <td>53.27</td>
-      <td>203.9</td>
-      <td>0.09405</td>
-      <td>0.13050</td>
-      <td>0.132100</td>
+      <td>17.45</td>
+      <td>69.86</td>
+      <td>368.6</td>
+      <td>0.1275</td>
+      <td>0.09866</td>
       <td>0.02168</td>
-      <td>...</td>
-      <td>29.72</td>
-      <td>58.08</td>
-      <td>249.8</td>
-      <td>0.1630</td>
-      <td>0.43100</td>
-      <td>0.53810</td>
-      <td>0.07879</td>
-      <td>0.3322</td>
-      <td>0.14860</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>252</th>
-      <td>885429</td>
-      <td>M</td>
-      <td>19.730</td>
-      <td>19.82</td>
-      <td>130.70</td>
-      <td>1206.0</td>
-      <td>0.10620</td>
-      <td>0.18490</td>
-      <td>0.241700</td>
-      <td>0.09740</td>
-      <td>...</td>
-      <td>25.59</td>
-      <td>159.80</td>
-      <td>1933.0</td>
-      <td>0.1710</td>
-      <td>0.59550</td>
-      <td>0.84890</td>
-      <td>0.25070</td>
-      <td>0.2749</td>
-      <td>0.12970</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>274</th>
-      <td>8911163</td>
-      <td>M</td>
-      <td>17.930</td>
-      <td>24.48</td>
-      <td>115.20</td>
-      <td>998.9</td>
-      <td>0.08855</td>
-      <td>0.07027</td>
-      <td>0.056990</td>
-      <td>0.04744</td>
-      <td>...</td>
-      <td>34.69</td>
-      <td>135.10</td>
-      <td>1320.0</td>
-      <td>0.1315</td>
-      <td>0.18060</td>
-      <td>0.20800</td>
-      <td>0.11360</td>
-      <td>0.2504</td>
-      <td>0.07948</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>246</th>
-      <td>884448</td>
-      <td>B</td>
-      <td>13.200</td>
-      <td>17.43</td>
-      <td>84.13</td>
-      <td>541.6</td>
-      <td>0.07215</td>
-      <td>0.04524</td>
-      <td>0.043360</td>
-      <td>0.01105</td>
-      <td>...</td>
-      <td>27.82</td>
-      <td>88.28</td>
-      <td>602.0</td>
-      <td>0.1101</td>
-      <td>0.15080</td>
-      <td>0.22980</td>
-      <td>0.04970</td>
-      <td>0.2767</td>
-      <td>0.07198</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>179</th>
-      <td>873586</td>
-      <td>B</td>
-      <td>12.810</td>
-      <td>13.06</td>
-      <td>81.29</td>
-      <td>508.8</td>
-      <td>0.08739</td>
-      <td>0.03774</td>
-      <td>0.009193</td>
-      <td>0.01330</td>
-      <td>...</td>
-      <td>16.15</td>
-      <td>86.70</td>
-      <td>570.7</td>
-      <td>0.1162</td>
-      <td>0.05445</td>
-      <td>0.02758</td>
-      <td>0.03990</td>
-      <td>0.1783</td>
-      <td>0.07319</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>464</th>
-      <td>911320502</td>
-      <td>B</td>
-      <td>13.170</td>
-      <td>18.22</td>
-      <td>84.28</td>
-      <td>537.3</td>
-      <td>0.07466</td>
-      <td>0.05994</td>
-      <td>0.048590</td>
-      <td>0.02870</td>
-      <td>...</td>
-      <td>23.89</td>
-      <td>95.10</td>
-      <td>687.6</td>
-      <td>0.1282</td>
-      <td>0.19650</td>
-      <td>0.18760</td>
-      <td>0.10450</td>
-      <td>0.2235</td>
-      <td>0.06925</td>
+      <td>0.02579</td>
+      <td>0.3557</td>
+      <td>0.08020</td>
       <td>NaN</td>
     </tr>
   </tbody>
@@ -1662,7 +1664,7 @@ Para isso, faremos uma análise exploratória inicial.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
@@ -1678,7 +1680,7 @@ Para isso, faremos uma análise exploratória inicial.</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[4]:</div>
+    <div class="prompt output_prompt">Out[9]:</div>
 
 
 
@@ -1737,7 +1739,7 @@ dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Unnamed: 32&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># O argumento inplace indica que a operação deve ser feita na memória</span>
@@ -1758,7 +1760,7 @@ dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
@@ -1774,7 +1776,7 @@ dtype: int64</pre>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[6]:</div>
+    <div class="prompt output_prompt">Out[11]:</div>
 
 
 
@@ -2036,7 +2038,7 @@ dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span>
@@ -2054,10 +2056,27 @@ dtype: int64</pre>
     <span class="s1">&#39;fractal_dimension_mean&#39;</span><span class="p">:</span> <span class="s1">&#39;Dimensão Fractal&#39;</span><span class="p">,</span>
     <span class="c1"># traduzir os erros (_se),</span>
     <span class="s1">&#39;perimeter_se&#39;</span><span class="p">:</span> <span class="s1">&#39;Perimetro (Erro)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;radius_se&#39;</span><span class="p">:</span> <span class="s1">&#39;Raio (Erro)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;texture_se&#39;</span><span class="p">:</span> <span class="s1">&#39;Textura (Erro)&#39;</span><span class="p">,</span>
     <span class="s1">&#39;area_se&#39;</span><span class="p">:</span> <span class="s1">&#39;Área Média (Erro)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;smoothness_se&#39;</span><span class="p">:</span> <span class="s1">&#39;Suavidade (Erro)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;compactness_se&#39;</span><span class="p">:</span> <span class="s1">&#39;Compactez Média (Erro)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;concave points_se&#39;</span><span class="p">:</span> <span class="s1">&#39;Pontos Côncavos (Erro)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;concavity_se&#39;</span><span class="p">:</span> <span class="s1">&#39;Concavidade Média (Erro)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;symmetry_se&#39;</span><span class="p">:</span> <span class="s1">&#39;Simetria Média (Erro)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;fractal_dimension_se&#39;</span><span class="p">:</span> <span class="s1">&#39;Dimensão Fractal (Erro)&#39;</span><span class="p">,</span>
     <span class="c1"># traduzir os piores (_worst)</span>
     <span class="s1">&#39;perimeter_worst&#39;</span><span class="p">:</span> <span class="s1">&#39;Perimetro (Pior)&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;area_worst&#39;</span><span class="p">:</span> <span class="s1">&#39;Área Média (Pior)&#39;</span>
+    <span class="s1">&#39;area_worst&#39;</span><span class="p">:</span> <span class="s1">&#39;Área Média (Pior)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;radius_worst&#39;</span><span class="p">:</span> <span class="s1">&#39;Raio (Pior)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;texture_worst&#39;</span><span class="p">:</span> <span class="s1">&#39;Textura (Pior)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;area_worst&#39;</span><span class="p">:</span> <span class="s1">&#39;Área Média (Pior)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;smoothness_worst&#39;</span><span class="p">:</span> <span class="s1">&#39;Suavidade (Pior)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;compactness_worst&#39;</span><span class="p">:</span> <span class="s1">&#39;Compactez Média (Pior)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;concave points_worst&#39;</span><span class="p">:</span> <span class="s1">&#39;Pontos Côncavos (Pior)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;concavity_worst&#39;</span><span class="p">:</span> <span class="s1">&#39;Concavidade Média (Pior)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;symmetry_worst&#39;</span><span class="p">:</span> <span class="s1">&#39;Simetria Média (Pior)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;fractal_dimension_worst&#39;</span><span class="p">:</span> <span class="s1">&#39;Dimensão Fractal (Pior)&#39;</span><span class="p">,</span>
 <span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
@@ -2073,7 +2092,7 @@ dtype: int64</pre>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[7]:</div>
+    <div class="prompt output_prompt">Out[13]:</div>
 
 
 
@@ -2107,258 +2126,258 @@ dtype: int64</pre>
       <th>Concavidade Média</th>
       <th>Pontos Côncavos</th>
       <th>...</th>
-      <th>radius_worst</th>
-      <th>texture_worst</th>
+      <th>Raio (Pior)</th>
+      <th>Textura (Pior)</th>
       <th>Perimetro (Pior)</th>
       <th>Área Média (Pior)</th>
-      <th>smoothness_worst</th>
-      <th>compactness_worst</th>
-      <th>concavity_worst</th>
-      <th>concave points_worst</th>
-      <th>symmetry_worst</th>
-      <th>fractal_dimension_worst</th>
+      <th>Suavidade (Pior)</th>
+      <th>Compactez Média (Pior)</th>
+      <th>Concavidade Média (Pior)</th>
+      <th>Pontos Côncavos (Pior)</th>
+      <th>Simetria Média (Pior)</th>
+      <th>Dimensão Fractal (Pior)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>353</th>
-      <td>9010018</td>
+      <th>56</th>
+      <td>857637</td>
       <td>M</td>
-      <td>15.080</td>
-      <td>25.74</td>
-      <td>98.00</td>
-      <td>716.6</td>
-      <td>0.10240</td>
-      <td>0.09769</td>
-      <td>0.12350</td>
-      <td>0.06553</td>
+      <td>19.21</td>
+      <td>18.57</td>
+      <td>125.50</td>
+      <td>1152.0</td>
+      <td>0.10530</td>
+      <td>0.12670</td>
+      <td>0.13230</td>
+      <td>0.08994</td>
       <td>...</td>
-      <td>18.51</td>
-      <td>33.22</td>
-      <td>121.20</td>
-      <td>1050.0</td>
-      <td>0.16600</td>
-      <td>0.2356</td>
-      <td>0.40290</td>
-      <td>0.15260</td>
-      <td>0.2654</td>
-      <td>0.09438</td>
+      <td>26.140</td>
+      <td>28.14</td>
+      <td>170.10</td>
+      <td>2145.0</td>
+      <td>0.1624</td>
+      <td>0.35110</td>
+      <td>0.38790</td>
+      <td>0.20910</td>
+      <td>0.3537</td>
+      <td>0.08294</td>
     </tr>
     <tr>
-      <th>251</th>
-      <td>88518501</td>
+      <th>116</th>
+      <td>864726</td>
       <td>B</td>
-      <td>11.500</td>
-      <td>18.45</td>
-      <td>73.28</td>
-      <td>407.4</td>
-      <td>0.09345</td>
-      <td>0.05991</td>
-      <td>0.02638</td>
-      <td>0.02069</td>
+      <td>8.95</td>
+      <td>15.76</td>
+      <td>58.74</td>
+      <td>245.2</td>
+      <td>0.09462</td>
+      <td>0.12430</td>
+      <td>0.09263</td>
+      <td>0.02308</td>
       <td>...</td>
-      <td>12.97</td>
-      <td>22.46</td>
-      <td>83.12</td>
-      <td>508.9</td>
-      <td>0.11830</td>
-      <td>0.1049</td>
-      <td>0.08105</td>
-      <td>0.06544</td>
-      <td>0.2740</td>
-      <td>0.06487</td>
+      <td>9.414</td>
+      <td>17.07</td>
+      <td>63.34</td>
+      <td>270.0</td>
+      <td>0.1179</td>
+      <td>0.18790</td>
+      <td>0.15440</td>
+      <td>0.03846</td>
+      <td>0.1652</td>
+      <td>0.07722</td>
     </tr>
     <tr>
-      <th>438</th>
-      <td>909231</td>
-      <td>B</td>
-      <td>13.850</td>
-      <td>19.60</td>
-      <td>88.68</td>
-      <td>592.6</td>
-      <td>0.08684</td>
-      <td>0.06330</td>
-      <td>0.01342</td>
-      <td>0.02293</td>
-      <td>...</td>
-      <td>15.63</td>
-      <td>28.01</td>
-      <td>100.90</td>
-      <td>749.1</td>
-      <td>0.11180</td>
-      <td>0.1141</td>
-      <td>0.04753</td>
-      <td>0.05890</td>
-      <td>0.2513</td>
-      <td>0.06911</td>
-    </tr>
-    <tr>
-      <th>262</th>
-      <td>888570</td>
+      <th>57</th>
+      <td>857793</td>
       <td>M</td>
-      <td>17.290</td>
-      <td>22.13</td>
-      <td>114.40</td>
-      <td>947.8</td>
-      <td>0.08999</td>
-      <td>0.12730</td>
-      <td>0.09697</td>
-      <td>0.07507</td>
+      <td>14.71</td>
+      <td>21.59</td>
+      <td>95.55</td>
+      <td>656.9</td>
+      <td>0.11370</td>
+      <td>0.13650</td>
+      <td>0.12930</td>
+      <td>0.08123</td>
       <td>...</td>
-      <td>20.39</td>
-      <td>27.24</td>
-      <td>137.90</td>
-      <td>1295.0</td>
-      <td>0.11340</td>
-      <td>0.2867</td>
-      <td>0.22980</td>
-      <td>0.15280</td>
-      <td>0.3067</td>
-      <td>0.07484</td>
+      <td>17.870</td>
+      <td>30.70</td>
+      <td>115.70</td>
+      <td>985.5</td>
+      <td>0.1368</td>
+      <td>0.42900</td>
+      <td>0.35870</td>
+      <td>0.18340</td>
+      <td>0.3698</td>
+      <td>0.10940</td>
     </tr>
     <tr>
-      <th>540</th>
-      <td>921385</td>
+      <th>404</th>
+      <td>904969</td>
       <td>B</td>
-      <td>11.540</td>
-      <td>14.44</td>
-      <td>74.65</td>
-      <td>402.9</td>
-      <td>0.09984</td>
-      <td>0.11200</td>
-      <td>0.06737</td>
-      <td>0.02594</td>
+      <td>12.34</td>
+      <td>14.95</td>
+      <td>78.29</td>
+      <td>469.1</td>
+      <td>0.08682</td>
+      <td>0.04571</td>
+      <td>0.02109</td>
+      <td>0.02054</td>
       <td>...</td>
-      <td>12.26</td>
-      <td>19.68</td>
-      <td>78.78</td>
-      <td>457.8</td>
-      <td>0.13450</td>
-      <td>0.2118</td>
-      <td>0.17970</td>
-      <td>0.06918</td>
-      <td>0.2329</td>
-      <td>0.08134</td>
+      <td>13.180</td>
+      <td>16.85</td>
+      <td>84.11</td>
+      <td>533.1</td>
+      <td>0.1048</td>
+      <td>0.06744</td>
+      <td>0.04921</td>
+      <td>0.04793</td>
+      <td>0.2298</td>
+      <td>0.05974</td>
     </tr>
     <tr>
-      <th>384</th>
-      <td>902727</td>
+      <th>288</th>
+      <td>8913049</td>
       <td>B</td>
-      <td>13.280</td>
-      <td>13.72</td>
-      <td>85.79</td>
-      <td>541.8</td>
-      <td>0.08363</td>
-      <td>0.08575</td>
-      <td>0.05077</td>
-      <td>0.02864</td>
+      <td>11.26</td>
+      <td>19.96</td>
+      <td>73.72</td>
+      <td>394.1</td>
+      <td>0.08020</td>
+      <td>0.11810</td>
+      <td>0.09274</td>
+      <td>0.05588</td>
       <td>...</td>
-      <td>14.24</td>
-      <td>17.37</td>
-      <td>96.59</td>
-      <td>623.7</td>
-      <td>0.11660</td>
-      <td>0.2685</td>
-      <td>0.28660</td>
-      <td>0.09173</td>
-      <td>0.2736</td>
-      <td>0.07320</td>
+      <td>11.860</td>
+      <td>22.33</td>
+      <td>78.27</td>
+      <td>437.6</td>
+      <td>0.1028</td>
+      <td>0.18430</td>
+      <td>0.15460</td>
+      <td>0.09314</td>
+      <td>0.2955</td>
+      <td>0.07009</td>
     </tr>
     <tr>
-      <th>21</th>
-      <td>8510824</td>
+      <th>396</th>
+      <td>90401601</td>
       <td>B</td>
-      <td>9.504</td>
-      <td>12.44</td>
-      <td>60.34</td>
-      <td>273.9</td>
-      <td>0.10240</td>
-      <td>0.06492</td>
-      <td>0.02956</td>
-      <td>0.02076</td>
+      <td>13.51</td>
+      <td>18.89</td>
+      <td>88.10</td>
+      <td>558.1</td>
+      <td>0.10590</td>
+      <td>0.11470</td>
+      <td>0.08580</td>
+      <td>0.05381</td>
       <td>...</td>
-      <td>10.23</td>
-      <td>15.66</td>
-      <td>65.13</td>
-      <td>314.9</td>
-      <td>0.13240</td>
-      <td>0.1148</td>
-      <td>0.08867</td>
-      <td>0.06227</td>
-      <td>0.2450</td>
-      <td>0.07773</td>
+      <td>14.800</td>
+      <td>27.20</td>
+      <td>97.33</td>
+      <td>675.2</td>
+      <td>0.1428</td>
+      <td>0.25700</td>
+      <td>0.34380</td>
+      <td>0.14530</td>
+      <td>0.2666</td>
+      <td>0.07686</td>
     </tr>
     <tr>
-      <th>402</th>
-      <td>904689</td>
+      <th>385</th>
+      <td>90291</td>
+      <td>M</td>
+      <td>14.60</td>
+      <td>23.29</td>
+      <td>93.97</td>
+      <td>664.7</td>
+      <td>0.08682</td>
+      <td>0.06636</td>
+      <td>0.08390</td>
+      <td>0.05271</td>
+      <td>...</td>
+      <td>15.790</td>
+      <td>31.71</td>
+      <td>102.20</td>
+      <td>758.2</td>
+      <td>0.1312</td>
+      <td>0.15810</td>
+      <td>0.26750</td>
+      <td>0.13590</td>
+      <td>0.2477</td>
+      <td>0.06836</td>
+    </tr>
+    <tr>
+      <th>272</th>
+      <td>8910988</td>
+      <td>M</td>
+      <td>21.75</td>
+      <td>20.99</td>
+      <td>147.30</td>
+      <td>1491.0</td>
+      <td>0.09401</td>
+      <td>0.19610</td>
+      <td>0.21950</td>
+      <td>0.10880</td>
+      <td>...</td>
+      <td>28.190</td>
+      <td>28.18</td>
+      <td>195.90</td>
+      <td>2384.0</td>
+      <td>0.1272</td>
+      <td>0.47250</td>
+      <td>0.58070</td>
+      <td>0.18410</td>
+      <td>0.2833</td>
+      <td>0.08858</td>
+    </tr>
+    <tr>
+      <th>415</th>
+      <td>905686</td>
       <td>B</td>
-      <td>12.960</td>
-      <td>18.29</td>
-      <td>84.18</td>
-      <td>525.2</td>
+      <td>11.89</td>
+      <td>21.17</td>
+      <td>76.39</td>
+      <td>433.8</td>
+      <td>0.09773</td>
+      <td>0.08120</td>
+      <td>0.02555</td>
+      <td>0.02179</td>
+      <td>...</td>
+      <td>13.050</td>
+      <td>27.21</td>
+      <td>85.09</td>
+      <td>522.9</td>
+      <td>0.1426</td>
+      <td>0.21870</td>
+      <td>0.11640</td>
+      <td>0.08263</td>
+      <td>0.3075</td>
       <td>0.07351</td>
-      <td>0.07899</td>
-      <td>0.04057</td>
-      <td>0.01883</td>
-      <td>...</td>
-      <td>14.13</td>
-      <td>24.61</td>
-      <td>96.31</td>
-      <td>621.9</td>
-      <td>0.09329</td>
-      <td>0.2318</td>
-      <td>0.16040</td>
-      <td>0.06608</td>
-      <td>0.3207</td>
-      <td>0.07247</td>
     </tr>
     <tr>
-      <th>248</th>
-      <td>88466802</td>
+      <th>76</th>
+      <td>8610629</td>
       <td>B</td>
-      <td>10.650</td>
-      <td>25.22</td>
-      <td>68.01</td>
-      <td>347.0</td>
-      <td>0.09657</td>
-      <td>0.07234</td>
-      <td>0.02379</td>
-      <td>0.01615</td>
+      <td>13.53</td>
+      <td>10.94</td>
+      <td>87.91</td>
+      <td>559.2</td>
+      <td>0.12910</td>
+      <td>0.10470</td>
+      <td>0.06877</td>
+      <td>0.06556</td>
       <td>...</td>
-      <td>12.25</td>
-      <td>35.19</td>
-      <td>77.98</td>
-      <td>455.7</td>
-      <td>0.14990</td>
-      <td>0.1398</td>
-      <td>0.11250</td>
-      <td>0.06136</td>
-      <td>0.3409</td>
-      <td>0.08147</td>
-    </tr>
-    <tr>
-      <th>400</th>
-      <td>90439701</td>
-      <td>M</td>
-      <td>17.910</td>
-      <td>21.02</td>
-      <td>124.40</td>
-      <td>994.0</td>
-      <td>0.12300</td>
-      <td>0.25760</td>
-      <td>0.31890</td>
-      <td>0.11980</td>
-      <td>...</td>
-      <td>20.80</td>
-      <td>27.78</td>
-      <td>149.60</td>
-      <td>1304.0</td>
-      <td>0.18730</td>
-      <td>0.5917</td>
-      <td>0.90340</td>
-      <td>0.19640</td>
-      <td>0.3245</td>
-      <td>0.11980</td>
+      <td>14.080</td>
+      <td>12.49</td>
+      <td>91.36</td>
+      <td>605.5</td>
+      <td>0.1451</td>
+      <td>0.13790</td>
+      <td>0.08539</td>
+      <td>0.07407</td>
+      <td>0.2710</td>
+      <td>0.07191</td>
     </tr>
   </tbody>
 </table>
@@ -3286,6 +3305,8 @@ Como não existe uma função que possa fazer tal tarefa nas bibliotecas que est
 As curvas estão organizadas em pares, onde a esquerda (azul) representa a distribuição em tumores malignos e direita (laranja) em tumores benignos.</p>
 <p>Por exemplo, a distribuição em tumores malignos do raio médio é muito mais concentrada em valores maiores, enquanto nos benignos essa distribuição é consideravelmente mais concentrada em valores menores. Logo, a variável "Raio Médio" provavelmente será útil para discriminar entre esses dois tipos de tumores.</p>
 <p>O mesmo acontece em "Textura", "Concavidade Média" e "Compactez Média". É possível visualizar certa discriminação em "Suavidade Média" também, mas ela é bem menos clara que as outras.</p>
+<p>E assim termina esse tutorial. Em resumo, nós exploramos os dados, detectamos seus "furos", suas correlações benéficas e maléficas, e localizamos seus outliers. Nós agora entendemos muito mais o que
+esses dados têm a oferecer e sabemos muito mais o que esperar deles no próximo tutorial.</p>
 
 </div>
 </div>
